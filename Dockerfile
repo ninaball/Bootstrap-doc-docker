@@ -26,7 +26,6 @@ RUN set -ex \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
- 
 EXPOSE 9001
 #CMD rackup -o 0.0.0.0
 CMD bundle exec jekyll serve 
