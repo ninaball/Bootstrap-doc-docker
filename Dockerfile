@@ -3,9 +3,14 @@ MAINTAINER Nina Ball <nina.ball@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get -y install git  ruby-dev build-essential locales zip 
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get -y install git  ruby-dev build-essential locales zip && \
+    apt-get clean && \
+    apt-get autoclean && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+    
 RUN git clone https://github.com/twbs/bootstrap.git /bootstrap
 RUN gem install bundler
 
@@ -20,11 +25,6 @@ WORKDIR /bootstrap
 RUN bundle install
 RUN bundle exec jekyll build
 
-RUN set -ex \ 
-    && apt-get clean \
-    && apt-get autoclean \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 9001
 #CMD rackup -o 0.0.0.0
